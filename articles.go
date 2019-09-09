@@ -1,42 +1,25 @@
 package devtogo
 
 import (
-	"encoding/json"
-	"errors"
-	"io/ioutil"
-	"net/http"
+	"fmt"
 	"time"
 )
 
+// GetArticle returns an article with post content for the provided article id.
+// https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/get
+func (c *Client) GetArticle(id string) (*Article, error) {
+	var res Article
+	err := c.Get(c.baseURL+fmt.Sprintf("/article/%s", id), &res)
+
+	return &res, err
+}
+
 // GetArticles returns a slice of articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles/get.
 func (c *Client) GetArticles() (Articles, error) {
-	req, err := getRequest(http.MethodGet, c.baseURL+"/articles", nil)
-	if err != nil {
-		return nil, err
-	}
-
-	resp, err := c.http.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New("error from dev.to api")
-	}
-
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var res Articles
-	err = json.Unmarshal(b, &res)
-	if err != nil {
-		return nil, err
-	}
+	err := c.Get(c.baseURL+"/articles", &res)
 
-	return res, nil
+	return res, err
 }
 
 // The structs in this file was generated via https://mholt.github.io/json-to-go/.
@@ -58,6 +41,33 @@ type Articles []struct {
 	PublishedTimestamp     time.Time    `json:"published_timestamp"`
 	User                   User         `json:"user"`
 	Organization           Organization `json:"organization"`
+}
+
+// Article represents a single article in the dev.to api. Also has more fields than Articles.
+type Article struct {
+	TypeOf                 string      `json:"type_of"`
+	ID                     int         `json:"id"`
+	Title                  string      `json:"title"`
+	Description            string      `json:"description"`
+	CoverImage             string      `json:"cover_image"`
+	ReadablePublishDate    string      `json:"readable_publish_date"`
+	SocialImage            string      `json:"social_image"`
+	TagList                string      `json:"tag_list"`
+	Tags                   []string    `json:"tags"`
+	Slug                   string      `json:"slug"`
+	Path                   string      `json:"path"`
+	URL                    string      `json:"url"`
+	CanonicalURL           string      `json:"canonical_url"`
+	CommentsCount          int         `json:"comments_count"`
+	PositiveReactionsCount int         `json:"positive_reactions_count"`
+	CreatedAt              time.Time   `json:"created_at"`
+	EditedAt               interface{} `json:"edited_at"`
+	CrosspostedAt          interface{} `json:"crossposted_at"`
+	PublishedAt            time.Time   `json:"published_at"`
+	LastCommentAt          time.Time   `json:"last_comment_at"`
+	BodyHTML               string      `json:"body_html"`
+	BodyMarkdown           string      `json:"body_markdown"`
+	User                   User        `json:"user"`
 }
 
 // User represents a user from the dev.to api.

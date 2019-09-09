@@ -1,6 +1,11 @@
 package devtogo
 
-import "net/http"
+import (
+	"encoding/json"
+	"errors"
+	"io/ioutil"
+	"net/http"
+)
 
 const ()
 
@@ -32,6 +37,31 @@ func NewClient(opts ...Option) *Client {
 	return res
 }
 
-func getRequest(method, url string, json interface{}) (*http.Request, error) {
+func getRequest(method, url string) (*http.Request, error) {
 	return http.NewRequest(method, url, nil)
+}
+
+func (c *Client) Get(url string, target interface{}) error {
+	req, err := getRequest(http.MethodGet, url)
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.http.Do(req)
+	if err != nil {
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return errors.New("error from dev.to api")
+	}
+
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(b, &target)
 }

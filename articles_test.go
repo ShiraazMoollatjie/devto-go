@@ -10,25 +10,42 @@ import (
 	"testing"
 )
 
-func TestGetArticles(t *testing.T) {
-	p := filepath.Join("testdata", "articles.json")
-	b, err := ioutil.ReadFile(p)
+func TestGetArticle(t *testing.T) {
 	var res Articles
-	err = json.Unmarshal(b, &res)
+	b := unmarshalGoldenFileBytes(t, "article.json", &res)
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/article/167919", r.URL.Path)
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+	client := NewClient(withBaseURL(ts.URL))
+	article, err := client.GetArticle("167919")
 	assert.NoError(t, err)
+	assert.Equal(t, &res, article)
+}
+
+func TestGetArticles(t *testing.T) {
+	var res Articles
+	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/articles", r.URL.Path)
-
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-		} else {
-			w.WriteHeader(http.StatusOK)
-			w.Write(b)
-		}
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
 	}))
+
 	client := NewClient(withBaseURL(ts.URL))
 	articles, err := client.GetArticles()
 	assert.NoError(t, err)
 	assert.Equal(t, res, articles)
+}
+
+func unmarshalGoldenFileBytes(t *testing.T, filename string, payload interface{}) []byte {
+	p := filepath.Join("testdata", filename)
+	b, err := ioutil.ReadFile(p)
+	err = json.Unmarshal(b, &payload)
+	assert.NoError(t, err)
+
+	return b
 }
