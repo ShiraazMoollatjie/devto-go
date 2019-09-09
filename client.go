@@ -2,6 +2,8 @@ package devtogo
 
 import "net/http"
 
+const ()
+
 // Client makes all the API calls to dev.to.
 type Client struct {
 	baseURL string
@@ -28,4 +30,8 @@ func NewClient(opts ...Option) *Client {
 	}
 
 	return res
+}
+
+func getRequest(method, url string, json interface{}) (*http.Request, error) {
+	return http.NewRequest(method, url, nil)
 }

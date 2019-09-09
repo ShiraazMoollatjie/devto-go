@@ -10,7 +10,7 @@ import (
 
 // GetArticles returns a slice of articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles/get.
 func (c *Client) GetArticles() (Articles, error) {
-	req, err := http.NewRequest("GET", c.baseURL+"/articles", nil)
+	req, err := getRequest(http.MethodGet, c.baseURL+"/articles", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -19,6 +19,7 @@ func (c *Client) GetArticles() (Articles, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New("error from dev.to api")
