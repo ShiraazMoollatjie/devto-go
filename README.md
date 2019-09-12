@@ -11,5 +11,19 @@ To use the API, create a client:
 cl := NewClient()
 ```
 
+## Retrieving articles
+
+To retrieve a list of articles:
+
+```go
+articles, err := client.GetArticles()
+```
+
+To retrieve a single article, you need to specify the `article id`:
+
+```go
+article, err := client.GetArticle("167919")
+```
+
 # Reference
 https://docs.dev.to/api/
