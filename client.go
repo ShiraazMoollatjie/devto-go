@@ -9,6 +9,7 @@ import (
 
 // Client makes all the API calls to dev.to.
 type Client struct {
+	apiKey  string
 	baseURL string
 	http    *http.Client
 }
@@ -19,6 +20,14 @@ type Option func(*Client)
 func withBaseURL(url string) Option {
 	return func(c *Client) {
 		c.baseURL = url
+	}
+}
+
+// WithApiKey sets the dev.to api key to use for this client.
+// see https://docs.dev.to/api/#section/Authentication for how to set one up.
+func WithApiKey(apiKey string) Option {
+	return func(c *Client) {
+		c.apiKey = apiKey
 	}
 }
 
@@ -35,13 +44,22 @@ func NewClient(opts ...Option) *Client {
 	return res
 }
 
-func getRequest(method, url string) (*http.Request, error) {
-	return http.NewRequest(method, url, nil)
+func (c *Client) getRequest(method, url string) (*http.Request, error) {
+	req, err := http.NewRequest(method, url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if c.apiKey != "" {
+		req.Header.Add("api-key", c.apiKey)
+	}
+
+	return req, err
 }
 
 // Get returns an error if the http client cannot perform a HTTP GET for the provided URL.
 func (c *Client) Get(url string, target interface{}) error {
-	req, err := getRequest(http.MethodGet, url)
+	req, err := c.getRequest(http.MethodGet, url)
 	if err != nil {
 		return err
 	}
