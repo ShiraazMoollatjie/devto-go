@@ -1,0 +1,33 @@
+{
+  "type_of": "article",
+  "id": 169579,
+  "title": "My First Post via API",
+  "description": "This is some markdown\n\n...",
+  "cover_image": "",
+  "readable_publish_date": "",
+  "social_image": "http://dev.to/social_previews/article/169579.png",
+  "tag_list": "",
+  "tags": [],
+  "slug": "my-first-post-via-api-1g89-temp-slug-6558998",
+  "path": "/shiraazm/my-first-post-via-api-1g89-temp-slug-6558998",
+  "url": "https://dev.to/shiraazm/my-first-post-via-api-1g89-temp-slug-6558998",
+  "canonical_url": "https://dev.to/shiraazm/my-first-post-via-api-1g89-temp-slug-6558998",
+  "comments_count": 0,
+  "positive_reactions_count": 0,
+  "created_at": "2019-09-12T20:10:28Z",
+  "edited_at": null,
+  "crossposted_at": null,
+  "published_at": "0001-01-01T00:00:00Z",
+  "last_comment_at": "2017-01-01T05:00:00Z",
+  "body_html": "\u003cp\u003eThis is some markdown\u003c/p\u003e\n\n",
+  "body_markdown": "This is some markdown",
+  "user": {
+    "name": "Shiraaz Moollatjie",
+    "username": "shiraazm",
+    "twitter_username": "",
+    "github_username": "ShiraazMoollatjie",
+    "website_url": "",
+    "profile_image": "https://res.cloudinary.com/practicaldev/image/fetch/s--jU2cz26t--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://thepracticaldev.s3.amazonaws.com/uploads/user/profile_image/120766/b16c8678-326c-4a9f-9d1d-4520458d6870.jpg",
+    "profile_image_90": "https://res.cloudinary.com/practicaldev/image/fetch/s--ANeWcf_q--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://thepracticaldev.s3.amazonaws.com/uploads/user/profile_image/120766/b16c8678-326c-4a9f-9d1d-4520458d6870.jpg"
+  }
+}

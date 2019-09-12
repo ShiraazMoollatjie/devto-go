@@ -9,7 +9,7 @@ import (
 // https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/get
 func (c *Client) GetArticle(id string) (*Article, error) {
 	var res Article
-	err := c.Get(c.baseURL+fmt.Sprintf("/article/%s", id), &res)
+	err := c.get(c.baseURL+fmt.Sprintf("/article/%s", id), &res)
 
 	return &res, err
 }
@@ -17,12 +17,35 @@ func (c *Client) GetArticle(id string) (*Article, error) {
 // GetArticles returns a slice of articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles/get.
 func (c *Client) GetArticles() (Articles, error) {
 	var res Articles
-	err := c.Get(c.baseURL+"/articles", &res)
+	err := c.get(c.baseURL+"/articles", &res)
+
+	return res, err
+}
+
+// CreateArticle creates a post on dev.to according to https://docs.dev.to/api/#tag/articles/paths/~1articles/post
+func (c *Client) CreateArticle(req CreateArticle) (Article, error) {
+	var res Article
+	err := c.post(c.baseURL+"/articles", CreateArticleReq{Article: req}, &res)
 
 	return res, err
 }
 
 // The structs in this file was generated via https://mholt.github.io/json-to-go/.
+
+// CreateArticleReq is a container type to create articles.
+type CreateArticleReq struct {
+	Article CreateArticle `json:"article"`
+}
+
+// CreateArticle is a request struct that creates an article.
+type CreateArticle struct {
+	Title        string `json:"title"`
+	Published    bool   `json:"published"`
+	BodyMarkdown string `json:"body_markdown"`
+	Tags         string `json:"tags"`
+	Series       string `json:"series"`
+	CanonicalURL string `json:"canonical_url"`
+}
 
 // Articles represents an article from the dev.to api.
 type Articles []struct {

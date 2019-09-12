@@ -2,12 +2,13 @@ package devtogo
 
 import (
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetArticle(t *testing.T) {
@@ -37,6 +38,40 @@ func TestGetArticles(t *testing.T) {
 
 	client := NewClient(withBaseURL(ts.URL))
 	articles, err := client.GetArticles()
+	assert.NoError(t, err)
+	assert.Equal(t, res, articles)
+}
+
+func TestCreateArticle(t *testing.T) {
+	var res Article
+	b := unmarshalGoldenFileBytes(t, "create_article.json", &res)
+	testArticle := CreateArticle{
+		Tags:         "go, help",
+		Series:       "api",
+		Published:    false,
+		BodyMarkdown: "This is some markdown",
+		Title:        "My First Post via API",
+	}
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/articles", r.URL.Path)
+		assert.Equal(t, http.MethodPost, r.Method)
+		assert.Equal(t, "myApiKey", r.Header.Get("api-key"))
+		assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
+
+		rb, err := ioutil.ReadAll(r.Body)
+		assert.NoError(t, err)
+
+		var car CreateArticleReq
+		assert.NoError(t, json.Unmarshal(rb, &car))
+		assert.Equal(t, CreateArticleReq{Article: testArticle}, car)
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+
+	client := NewClient(withBaseURL(ts.URL), WithApiKey("myApiKey"))
+	articles, err := client.CreateArticle(testArticle)
 	assert.NoError(t, err)
 	assert.Equal(t, res, articles)
 }
