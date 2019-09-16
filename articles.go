@@ -15,9 +15,10 @@ func (c *Client) GetArticle(id string) (*Article, error) {
 }
 
 // GetArticles returns a slice of articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles/get.
-func (c *Client) GetArticles() (Articles, error) {
+func (c *Client) GetArticles(args Arguments) (Articles, error) {
 	var res Articles
-	err := c.get(c.baseURL+"/articles", &res)
+	qp := args.toQueryParams().Encode()
+	err := c.get(c.baseURL+"/articles?"+qp, &res)
 
 	return res, err
 }

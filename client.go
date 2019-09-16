@@ -6,6 +6,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 // Client makes all the API calls to dev.to.
@@ -13,6 +14,22 @@ type Client struct {
 	apiKey  string
 	baseURL string
 	http    *http.Client
+}
+
+// Arguments are used for passing query parameters to the dev.to api.
+type Arguments map[string]string
+
+// Defaults returns an empty map of arguments.
+func Defaults() Arguments {
+	return make(map[string]string)
+}
+
+func (a Arguments) toQueryParams() url.Values {
+	res := make(url.Values)
+	for k, v := range a {
+		res.Add(k, v)
+	}
+	return res
 }
 
 // Option allows the client to be configured with different options.
@@ -47,7 +64,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) getRequest(method, url string, payload interface{}) (*http.Request, error) {
 
-	var b *bytes.Buffer
+	b := bytes.NewBuffer(nil)
 	if method == http.MethodPost {
 		j, err := json.Marshal(payload)
 		if err != nil {

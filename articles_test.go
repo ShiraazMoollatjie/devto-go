@@ -12,7 +12,7 @@ import (
 )
 
 func TestGetArticle(t *testing.T) {
-	var res Articles
+	var res Article
 	b := unmarshalGoldenFileBytes(t, "article.json", &res)
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -30,16 +30,28 @@ func TestGetArticles(t *testing.T) {
 	var res Articles
 	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
 
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "/articles", r.URL.Path)
-		w.WriteHeader(http.StatusOK)
-		w.Write(b)
-	}))
+	tests := []struct {
+		name                string
+		arguments           Arguments
+		expectedQueryParams string
+	}{
+		{"No params", Defaults(), ""},
+		{"Page param", Arguments{"page": "1"}, "page=1"},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				assert.Equal(t, "/articles?"+test.expectedQueryParams, r.URL.String())
+				w.WriteHeader(http.StatusOK)
+				w.Write(b)
+			}))
 
-	client := NewClient(withBaseURL(ts.URL))
-	articles, err := client.GetArticles()
-	assert.NoError(t, err)
-	assert.Equal(t, res, articles)
+			client := NewClient(withBaseURL(ts.URL))
+			articles, err := client.GetArticles(test.arguments)
+			assert.NoError(t, err)
+			assert.Equal(t, res, articles)
+		})
+	}
 }
 
 func TestCreateArticle(t *testing.T) {
