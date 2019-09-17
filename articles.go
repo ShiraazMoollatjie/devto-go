@@ -26,15 +26,23 @@ func (c *Client) GetArticles(args Arguments) (Articles, error) {
 // CreateArticle creates a post on dev.to according to https://docs.dev.to/api/#tag/articles/paths/~1articles/post
 func (c *Client) CreateArticle(req CreateArticle) (Article, error) {
 	var res Article
-	err := c.post(c.baseURL+"/articles", CreateArticleReq{Article: req}, &res)
+	err := c.post(c.baseURL+"/articles", ArticleReq{Article: req}, &res)
+
+	return res, err
+}
+
+// Update creates a put on dev.to according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/put
+func (c *Client) UpdateArticle(id string, req CreateArticle) (Article, error) {
+	var res Article
+	err := c.put(c.baseURL+fmt.Sprintf("/articles/%s", id), ArticleReq{Article: req}, &res)
 
 	return res, err
 }
 
 // The structs in this file was generated via https://mholt.github.io/json-to-go/.
 
-// CreateArticleReq is a container type to create articles.
-type CreateArticleReq struct {
+// ArticleReq is a container type to create articles.
+type ArticleReq struct {
 	Article CreateArticle `json:"article"`
 }
 

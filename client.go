@@ -65,7 +65,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) getRequest(method, url string, payload interface{}) (*http.Request, error) {
 
 	b := bytes.NewBuffer(nil)
-	if method == http.MethodPost {
+	if method == http.MethodPost || method == http.MethodPut {
 		j, err := json.Marshal(payload)
 		if err != nil {
 			return nil, err
@@ -111,9 +111,9 @@ func (c *Client) get(url string, target interface{}) error {
 	return json.Unmarshal(b, &target)
 }
 
-// post returns an error if the http client cannot perform a HTTP POST for the provided URL.
-func (c *Client) post(url string, payload interface{}, target interface{}) error {
-	req, err := c.getRequest(http.MethodPost, url, payload)
+// save returns an error if the http client cannot save the request to dev.to..
+func (c *Client) save(httpMethod string, url string, payload interface{}, target interface{}) error {
+	req, err := c.getRequest(httpMethod, url, payload)
 	if err != nil {
 		return err
 	}
@@ -136,4 +136,14 @@ func (c *Client) post(url string, payload interface{}, target interface{}) error
 	}
 
 	return json.Unmarshal(b, &target)
+}
+
+// put returns an error if the http client cannot perform a HTTP PUT for the provided URL.
+func (c *Client) put(url string, payload interface{}, target interface{}) error {
+	return c.save(http.MethodPut, url, payload, target)
+}
+
+// post returns an error if the http client cannot perform a HTTP POST for the provided URL.
+func (c *Client) post(url string, payload interface{}, target interface{}) error {
+	return c.save(http.MethodPost, url, payload, target)
 }
