@@ -54,6 +54,70 @@ func TestGetArticles(t *testing.T) {
 	}
 }
 
+func TestGetMyArticles(t *testing.T) {
+	var res Articles
+	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/articles/me?", r.URL.String())
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+
+	client := NewClient(withBaseURL(ts.URL))
+	articles, err := client.GetMyArticles(Defaults())
+	assert.NoError(t, err)
+	assert.Equal(t, res, articles)
+}
+
+func TestGetMyPublishedArticles(t *testing.T) {
+	var res Articles
+	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/articles/me/published?", r.URL.String())
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+
+	client := NewClient(withBaseURL(ts.URL))
+	articles, err := client.GetMyPublishedArticles(Defaults())
+	assert.NoError(t, err)
+	assert.Equal(t, res, articles)
+}
+
+func TestGetMyUnpublishedArticles(t *testing.T) {
+	var res Articles
+	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/articles/me/unpublished?", r.URL.String())
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+
+	client := NewClient(withBaseURL(ts.URL))
+	articles, err := client.GetMyUnpublishedArticles(Defaults())
+	assert.NoError(t, err)
+	assert.Equal(t, res, articles)
+}
+
+func TestGetAllMyArticles(t *testing.T) {
+	var res Articles
+	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/articles/me/all?", r.URL.String())
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+
+	client := NewClient(withBaseURL(ts.URL))
+	articles, err := client.GetAllMyArticles(Defaults())
+	assert.NoError(t, err)
+	assert.Equal(t, res, articles)
+}
+
 func TestCreateArticle(t *testing.T) {
 	var res Article
 	b := unmarshalGoldenFileBytes(t, "create_article.json", &res)
