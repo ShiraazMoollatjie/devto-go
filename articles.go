@@ -68,9 +68,9 @@ func (c *Client) CreateArticle(req CreateArticle) (Article, error) {
 }
 
 // Update creates a put on dev.to according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/put
-func (c *Client) UpdateArticle(id string, req CreateArticle) (Article, error) {
+func (c *Client) UpdateArticle(id int, req CreateArticle) (Article, error) {
 	var res Article
-	err := c.put(c.baseURL+fmt.Sprintf("/articles/%s", id), ArticleReq{Article: req}, &res)
+	err := c.put(c.baseURL+fmt.Sprintf("/articles/%d", id), ArticleReq{Article: req}, &res)
 
 	return res, err
 }
