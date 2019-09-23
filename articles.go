@@ -50,7 +50,7 @@ func (c *Client) GetMyUnpublishedArticles(args Arguments) (Articles, error) {
 	return res, err
 }
 
-// GetMyUnpublishedArticles returns a slice of unpublished articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1me~1all/get.
+// GetAllMyArticles returns a slice of unpublished articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1me~1all/get.
 func (c *Client) GetAllMyArticles(args Arguments) (Articles, error) {
 	var res Articles
 	qp := args.toQueryParams().Encode()
@@ -67,7 +67,7 @@ func (c *Client) CreateArticle(req CreateArticle) (Article, error) {
 	return res, err
 }
 
-// Update creates a put on dev.to according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/put
+// UpdateArticle updates a post on dev.to according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/put
 func (c *Client) UpdateArticle(id string, req CreateArticle) (Article, error) {
 	var res Article
 	err := c.put(c.baseURL+fmt.Sprintf("/articles/%s", id), ArticleReq{Article: req}, &res)
