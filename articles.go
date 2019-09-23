@@ -50,7 +50,7 @@ func (c *Client) GetMyUnpublishedArticles(args Arguments) (Articles, error) {
 	return res, err
 }
 
-// GetMyUnpublishedArticles returns a slice of unpublished articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1me~1all/get.
+// GetAllMyArticles returns a slice of unpublished articles according to https://docs.dev.to/api/#tag/articles/paths/~1articles~1me~1all/get.
 func (c *Client) GetAllMyArticles(args Arguments) (Articles, error) {
 	var res Articles
 	qp := args.toQueryParams().Encode()
