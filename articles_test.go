@@ -181,7 +181,7 @@ func TestUpdateArticle(t *testing.T) {
 	}))
 
 	client := NewClient(withBaseURL(ts.URL), WithApiKey("myApiKey"))
-	articles, err := client.UpdateArticle("1000", testArticle)
+	articles, err := client.UpdateArticle(1000, testArticle)
 	assert.NoError(t, err)
 	assert.Equal(t, res, articles)
 }
