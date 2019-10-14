@@ -122,7 +122,7 @@ func TestCreateArticle(t *testing.T) {
 	var res Article
 	b := unmarshalGoldenFileBytes(t, "create_article.json", &res)
 	testArticle := CreateArticle{
-		Tags:         "go, help",
+		Tags:         []string{"go", "help"},
 		Series:       "api",
 		Published:    false,
 		BodyMarkdown: "This is some markdown",
@@ -156,7 +156,7 @@ func TestUpdateArticle(t *testing.T) {
 	var res Article
 	b := unmarshalGoldenFileBytes(t, "create_article.json", &res)
 	testArticle := CreateArticle{
-		Tags:         "go, help",
+		Tags:         []string{"go", "help"},
 		Series:       "api",
 		Published:    false,
 		BodyMarkdown: "This is some markdown",
