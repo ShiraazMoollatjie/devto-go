@@ -84,12 +84,12 @@ type ArticleReq struct {
 
 // CreateArticle is a request struct that creates an article.
 type CreateArticle struct {
-	Title        string `json:"title"`
-	Published    bool   `json:"published"`
-	BodyMarkdown string `json:"body_markdown"`
-	Tags         string `json:"tags"`
-	Series       string `json:"series"`
-	CanonicalURL string `json:"canonical_url"`
+	Title        string   `json:"title"`
+	Published    bool     `json:"published"`
+	BodyMarkdown string   `json:"body_markdown"`
+	Tags         []string `json:"tags"`
+	Series       string   `json:"series"`
+	CanonicalURL string   `json:"canonical_url"`
 }
 
 // Articles represents an article from the dev.to api.

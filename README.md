@@ -70,7 +70,7 @@ To create a post, use the `CreateArticle`:
 ```go
 np, err := cl.CreateArticle(devtogo.CreateArticle{
   Title:        "My new dev.to post",
-  Tags:         "go",
+  Tags:         []string{"go"},
   BodyMarkdown: "my long markdown article that is preferably read from a file",
 })
 ```
