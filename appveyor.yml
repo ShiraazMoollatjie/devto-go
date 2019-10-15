@@ -3,7 +3,7 @@ build: off
 
 image: Ubuntu1804
 
-clone_folder: /usr/go/src/github.com/$username/$project
+clone_folder: /usr/go/src/github.com/ShiraazMoollatjie/devtogo
 
 environment:
   GOPATH: /usr/go/

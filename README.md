@@ -1,6 +1,7 @@
 # devto-go
 [![Go Report Card](https://goreportcard.com/badge/github.com/ShiraazMoollatjie/devtogo?style=flat-square)](https://goreportcard.com/report/github.com/ShiraazMoollatjie/devtogo)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/ShiraazMoollatjie/devtogo)
+[![Build status](https://ci.appveyor.com/api/projects/status/mt8mscxucota8ywf/branch/master?svg=true)](https://ci.appveyor.com/project/grdnrio/windows-security-policy/branch/master)
 
 devto-go is a REST API Wrapper for the dev.to api written in go.
 
