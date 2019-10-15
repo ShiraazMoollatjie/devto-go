@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -126,13 +127,13 @@ func (c *Client) save(httpMethod string, url string, payload interface{}, target
 
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		return errors.New("error from dev.to api")
-	}
-
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
+	}
+
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		return errors.New(fmt.Sprintf("error from dev.to api. httpCode: %d, response: %s", resp.StatusCode, b))
 	}
 
 	return json.Unmarshal(b, &target)
