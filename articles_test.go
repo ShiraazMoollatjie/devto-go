@@ -104,7 +104,7 @@ func TestGetMyUnpublishedArticles(t *testing.T) {
 
 func TestGetAllMyArticles(t *testing.T) {
 	var res Articles
-	b := unmarshalGoldenFileBytes(t, "articles.json", &res)
+	b := unmarshalGoldenFileBytes(t, "myarticles.json", &res)
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		assert.Equal(t, "/articles/me/all?", r.URL.String())
