@@ -1,0 +1,30 @@
+[
+  {
+    "type_of": "article",
+    "id": 193770,
+    "title": "Tis is my title",
+    "description": "",
+    "cover_image": null,
+    "published": false,
+    "published_at": null,
+    "tag_list": [],
+    "slug": "tis-is-my-title-47nc-temp-slug-2312966",
+    "path": "/shiraazm/tis-is-my-title-47nc-temp-slug-2312966",
+    "url": "https://dev.to/shiraazm/tis-is-my-title-47nc-temp-slug-2312966",
+    "canonical_url": "https://dev.to/shiraazm/tis-is-my-title-47nc-temp-slug-2312966",
+    "comments_count": 0,
+    "positive_reactions_count": 0,
+    "page_views_count": 0,
+    "published_timestamp": "",
+    "body_markdown": "---\ntitle: Tis is my title\npublished: false\ndescription: \ntags: \n---\n\nThis is my post",
+    "user": {
+      "name": "Shiraaz Moollatjie",
+      "username": "shiraazm",
+      "twitter_username": null,
+      "github_username": "ShiraazMoollatjie",
+      "website_url": null,
+      "profile_image": "https://res.cloudinary.com/practicaldev/image/fetch/s--jU2cz26t--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://thepracticaldev.s3.amazonaws.com/uploads/user/profile_image/120766/b16c8678-326c-4a9f-9d1d-4520458d6870.jpg",
+      "profile_image_90": "https://res.cloudinary.com/practicaldev/image/fetch/s--ANeWcf_q--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://thepracticaldev.s3.amazonaws.com/uploads/user/profile_image/120766/b16c8678-326c-4a9f-9d1d-4520458d6870.jpg"
+    }
+  }
+]

@@ -107,7 +107,7 @@ type Articles []struct {
 	CanonicalURL           string       `json:"canonical_url"`
 	CommentsCount          int          `json:"comments_count"`
 	PositiveReactionsCount int          `json:"positive_reactions_count"`
-	PublishedTimestamp     time.Time    `json:"published_timestamp"`
+	PublishedTimestamp     emptyTime    `json:"published_timestamp"`
 	User                   User         `json:"user"`
 	Organization           Organization `json:"organization"`
 }
@@ -132,7 +132,7 @@ type Article struct {
 	CreatedAt              time.Time   `json:"created_at"`
 	EditedAt               interface{} `json:"edited_at"`
 	CrosspostedAt          interface{} `json:"crossposted_at"`
-	PublishedAt            time.Time   `json:"published_at"`
+	PublishedAt            emptyTime   `json:"published_at"`
 	LastCommentAt          time.Time   `json:"last_comment_at"`
 	BodyHTML               string      `json:"body_html"`
 	BodyMarkdown           string      `json:"body_markdown"`
