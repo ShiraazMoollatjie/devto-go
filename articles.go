@@ -110,6 +110,8 @@ type Articles []struct {
 	PublishedTimestamp     emptyTime    `json:"published_timestamp"`
 	User                   User         `json:"user"`
 	Organization           Organization `json:"organization"`
+	Published              bool         `json:"published"`
+	Markdown               string       `json:"body_markdown"`
 }
 
 // Article represents a single article in the dev.to api. Also has more fields than Articles.
