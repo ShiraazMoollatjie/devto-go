@@ -88,7 +88,7 @@ type CreateArticle struct {
 	Published    bool     `json:"published"`
 	BodyMarkdown string   `json:"body_markdown"`
 	Tags         []string `json:"tags"`
-	Series       string   `json:"series"`
+	Series       string   `json:"series,omitempty"`
 	CanonicalURL string   `json:"canonical_url"`
 }
 
