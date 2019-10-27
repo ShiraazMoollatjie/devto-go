@@ -152,6 +152,39 @@ func TestCreateArticle(t *testing.T) {
 	assert.Equal(t, res, articles)
 }
 
+func TestCreateArticleNoSeriesField(t *testing.T) {
+	var res Article
+	b := unmarshalGoldenFileBytes(t, "create_article.json", &res)
+	testArticle := CreateArticle{
+		Tags:         []string{"go", "help"},
+		Published:    false,
+		BodyMarkdown: "This is some markdown",
+		Title:        "My First Post via API",
+	}
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		assert.Equal(t, "/articles", r.URL.Path)
+		assert.Equal(t, http.MethodPost, r.Method)
+		assert.Equal(t, "myApiKey", r.Header.Get("api-key"))
+		assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
+
+		rb, err := ioutil.ReadAll(r.Body)
+		assert.NoError(t, err)
+
+		var car ArticleReq
+		assert.NoError(t, json.Unmarshal(rb, &car))
+		assert.Equal(t, ArticleReq{Article: testArticle}, car)
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(b)
+	}))
+
+	client := NewClient(withBaseURL(ts.URL), WithApiKey("myApiKey"))
+	articles, err := client.CreateArticle(testArticle)
+	assert.NoError(t, err)
+	assert.Equal(t, res, articles)
+}
+
 func TestUpdateArticle(t *testing.T) {
 	var res Article
 	b := unmarshalGoldenFileBytes(t, "create_article.json", &res)
