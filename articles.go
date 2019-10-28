@@ -7,9 +7,9 @@ import (
 
 // GetArticle returns an article with post content for the provided article id.
 // https://docs.dev.to/api/#tag/articles/paths/~1articles~1{id}/get
-func (c *Client) GetArticle(id string) (*Article, error) {
+func (c *Client) GetArticle(id int32) (*Article, error) {
 	var res Article
-	err := c.get(c.baseURL+fmt.Sprintf("/article/%s", id), &res)
+	err := c.get(c.baseURL+fmt.Sprintf("/articles/%d", id), &res)
 
 	return &res, err
 }
