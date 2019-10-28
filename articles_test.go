@@ -16,12 +16,12 @@ func TestGetArticle(t *testing.T) {
 	b := unmarshalGoldenFileBytes(t, "article.json", &res)
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "/article/167919", r.URL.Path)
+		assert.Equal(t, "/articles/167919", r.URL.Path)
 		w.WriteHeader(http.StatusOK)
 		w.Write(b)
 	}))
 	client := NewClient(withBaseURL(ts.URL))
-	article, err := client.GetArticle("167919")
+	article, err := client.GetArticle(167919)
 	assert.NoError(t, err)
 	assert.Equal(t, &res, article)
 }
