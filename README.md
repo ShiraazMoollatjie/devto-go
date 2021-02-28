@@ -21,14 +21,14 @@ cl := devtogo.NewClient(devtogo.WithApiKey("MY_API_KEY"))
 It is also possible to not use an API key for anonymous operations.
 
 ## Retrieving articles
-To retrieve a list of articles, simply use the `GetArticles` function:
+To retrieve a list of articles, simply use the `Articles` function:
 ```go
-articles, err := cl.GetArticles(devtogo.Defaults())
+articles, err := cl.Articles(devtogo.Defaults())
 ```
 It is also possible for us to add query parameters. For example, it's useful to retrieve articles for a specific `tag`.
 The way to do this would be:
 ```go
-al, err := cl.GetArticles(devtogo.Arguments{
+al, err := cl.Articles(devtogo.Arguments{
 		"tag": "go",
 	})
 ```
